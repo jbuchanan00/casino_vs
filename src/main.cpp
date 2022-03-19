@@ -10,7 +10,8 @@ int main() {
 	
 	while (game) {
 		std::cout << "Player has $" << p1.get_dollars() << " available\n";
-		std::cout << """Select the number on the list\n1.Blackjack\n2.Deposit Funds\n3.Withdraw Funds\n4.Game Results\n5.Exit Game\n";
+		std::cout << "Select the number on the list\n1.Blackjack\n2.Deposit Funds\n3.Withdraw Funds\n"
+			"4.Game Results\n5.Exit Game\n";
 		int game_decision;
 		std::cin >> game_decision;
 		if (game_decision == 2) {
