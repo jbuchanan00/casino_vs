@@ -23,6 +23,8 @@ void Blackjack::deal() {
 		available_cards.erase(available_cards.begin() + card_index);
 	}
 	std::cout << "Your cards are: " << player_cards.at(0) << " " << player_cards.at(1);
+	int playerVal = getValue(player_cards);
+	std::cout << "\nYour cards value is: " << playerVal << std::endl;
 	std::cout << "\nDealer shown card is: " << dealer_cards.at(0) << std::endl;
 }
 
@@ -32,4 +34,34 @@ void Blackjack::hit() {
 
 void Blackjack::stand() {
 
+}
+
+int Blackjack::getValue(std::vector<std::string> valVector) {
+	std::vector<int> intVector;
+	for (std::string x : valVector) {
+		std::string cardNum = "";
+		if (x.size() == 3) {
+			cardNum = x.substr(1, 3);
+		}
+		else if (x.size() == 2) {
+			cardNum = x.substr(1, 2);
+		}
+		if (cardNum == "K" || cardNum == "Q" || cardNum == "J") {
+			cardNum = "10";
+		}
+		else if (cardNum == "A") {
+			if (std::stoi(cardNum) < 11) {
+				cardNum = "11";
+			}
+			else {
+				cardNum = "1";
+			}
+		}
+		intVector.push_back(std::stoi(cardNum));
+	}
+	int sum = 0;
+	for (int x : intVector) {
+		sum += x;
+	}
+	return sum;
 }
