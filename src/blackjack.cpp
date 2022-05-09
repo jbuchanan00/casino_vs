@@ -1,5 +1,6 @@
 #include "blackjack.h"
 #include <iostream>
+#include <vector>
 
 Blackjack::Blackjack() {
 	std::cout << "Welcome to Blackjack" << std::endl;

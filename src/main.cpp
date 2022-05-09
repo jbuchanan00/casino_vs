@@ -15,8 +15,17 @@ int main() {
 		int game_decision;
 		std::cin >> game_decision;
 		if (game_decision == 1) {
-			Blackjack game;
-			game.deal();
+			bool gameCont = true;
+			while (gameCont) {
+				Blackjack game;
+				game.deal();
+				std::cout << "Would you like to play again? Y for yes, N for no" << std::endl;
+				char blackjackCont = ' ';
+				std::cin >> blackjackCont;
+				if (blackjackCont != 'y' && blackjackCont != 'Y') {
+					gameCont = false;
+				}
+			}
 		}
 		if (game_decision == 2) {
 			int dollars;
