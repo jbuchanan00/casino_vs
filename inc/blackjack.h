@@ -25,6 +25,7 @@ protected:
     std::vector<std::string> dealer_cards;
     std::vector<std::string> available_cards;
     int getValue(std::vector<std::string>);
+    std::string drawCard();
 public:
     Blackjack();
     ~Blackjack() {}

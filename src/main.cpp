@@ -19,6 +19,15 @@ int main() {
 			while (gameCont) {
 				Blackjack game;
 				game.deal();
+				char blackjackDecision = ' ';
+				std::cout << "Press H for Hit, S for Stand" << std::endl;
+				std::cin >> blackjackDecision;
+				while (blackjackDecision == 'H' || blackjackDecision == 'h') {
+					game.hit();
+					std::cout << "Press H for Hit, S for Stand" << std::endl;
+					std::cin >> blackjackDecision;
+				}
+				game.stand();
 				std::cout << "Would you like to play again? Y for yes, N for no" << std::endl;
 				char blackjackCont = ' ';
 				std::cin >> blackjackCont;

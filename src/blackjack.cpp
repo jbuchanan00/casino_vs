@@ -1,6 +1,7 @@
 #include "blackjack.h"
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 Blackjack::Blackjack() {
 	std::cout << "Welcome to Blackjack" << std::endl;
@@ -9,18 +10,15 @@ Blackjack::Blackjack() {
 	}
 }
 
-//deal out the first set of cards, only two for dealer and two for player.
+//deal out the first set of cards, only two for both the dealer and player.
 void Blackjack::deal() {
-	int card_index = 0;
 	for (int i = 0; i < 4; i++) {
-		card_index = std::rand() % available_cards.size();
 		if (i % 2 == 0) {
-			player_cards.push_back(available_cards.at(card_index));
+			player_cards.push_back(drawCard());
 		}
 		else {
-			dealer_cards.push_back(available_cards.at(card_index));
+			dealer_cards.push_back(drawCard());
 		}
-		available_cards.erase(available_cards.begin() + card_index);
 	}
 	std::cout << "Your cards are: " << player_cards.at(0) << " " << player_cards.at(1);
 	int playerVal = getValue(player_cards);
@@ -28,14 +26,34 @@ void Blackjack::deal() {
 	std::cout << "\nDealer shown card is: " << dealer_cards.at(0) << std::endl;
 }
 
+
 void Blackjack::hit() {
 
 }
 
+//when player stands want the dealer to draw cards until hard 17 or greater
+//hard 17 is 17 without an ace card
+//player wins when: dealer lower, dealer busts.
+//dealer wins when: player lower, player busted (taken care of in hit method)
 void Blackjack::stand() {
-
+	int dealerVal = getValue(dealer_cards);
+	std::cout << "Dealer Cards: " << dealer_cards.at(0) << " " << dealer_cards.at(1);
+	int i = 2;
+	while (dealerVal < 17) {
+		dealer_cards.push_back(drawCard());
+		std::cout << " " << dealer_cards.at(i);
+		i++;
+		dealerVal = getValue(dealer_cards);
+	}
+	if(dealerVal <= 21){
+		std::cout << "\nDealer value is " << dealerVal << std::endl;
+	}
+	else if (dealerVal > 21) {
+		std::cout << "\nDealer value is " << dealerVal << ". Dealer busts.\n";
+	}
 }
 
+//give the value of the cards in numeric form
 int Blackjack::getValue(std::vector<std::string> valVector) {
 	std::vector<int> intVector;
 	for (std::string x : valVector) {
@@ -50,12 +68,7 @@ int Blackjack::getValue(std::vector<std::string> valVector) {
 			cardNum = "10";
 		}
 		else if (cardNum == "A") {
-			if (std::stoi(cardNum) < 11) {
-				cardNum = "11";
-			}
-			else {
-				cardNum = "1";
-			}
+			cardNum = "11";
 		}
 		intVector.push_back(std::stoi(cardNum));
 	}
@@ -63,5 +76,33 @@ int Blackjack::getValue(std::vector<std::string> valVector) {
 	for (int x : intVector) {
 		sum += x;
 	}
+	//this is to check if an ace valued at 11 is causing a bust, changing ace value to 1 if it is
+	while (sum > 21 || sum == 0) {
+		sum = 0;
+		for (int x : intVector) {
+			sum += x;
+		}
+		for (int i = 0; i < intVector.size(); i++) {
+			if(intVector.at(i) == 11){
+				intVector.at(i) = 1;
+				sum = 0;
+			}
+		}
+		if (sum != 0) {
+			break;
+		}
+	}
+
 	return sum;
 }
+
+//draw card from deck and remove card from deck to avoid duplicates
+std::string Blackjack::drawCard() {
+	srand(time(0));
+	int card_index = 0;
+	card_index = std::rand() % available_cards.size();
+	std::string card = available_cards.at(card_index);
+	available_cards.erase(available_cards.begin() + card_index);
+	return card;
+}
+
