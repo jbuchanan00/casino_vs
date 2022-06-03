@@ -20,6 +20,7 @@ private:
                             "sQ", "sJ", "s10", "s9",
                             "s8", "s7", "s6", "s5",
                             "s4", "s3", "s2" };
+    bool player_bust_;
 protected:
     std::vector<std::string> player_cards;
     std::vector<std::string> dealer_cards;
@@ -32,6 +33,8 @@ public:
     void deal();
     void hit();
     void stand();
+    bool bustStatus();
+    void changeBustStatus(bool);
 };
 
 

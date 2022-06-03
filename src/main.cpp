@@ -24,8 +24,13 @@ int main() {
 				std::cin >> blackjackDecision;
 				while (blackjackDecision == 'H' || blackjackDecision == 'h') {
 					game.hit();
-					std::cout << "Press H for Hit, S for Stand" << std::endl;
-					std::cin >> blackjackDecision;
+					if (!game.bustStatus()) {
+						std::cout << "Press H for Hit, S for Stand" << std::endl;
+						std::cin >> blackjackDecision;
+					}
+					else {
+						break;
+					}
 				}
 				game.stand();
 				std::cout << "Would you like to play again? Y for yes, N for no" << std::endl;

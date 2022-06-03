@@ -12,6 +12,7 @@ Blackjack::Blackjack() {
 
 //deal out the first set of cards, only two for both the dealer and player.
 void Blackjack::deal() {
+	changeBustStatus(false);
 	for (int i = 0; i < 4; i++) {
 		if (i % 2 == 0) {
 			player_cards.push_back(drawCard());
@@ -28,6 +29,21 @@ void Blackjack::deal() {
 
 
 void Blackjack::hit() {
+	player_cards.push_back(drawCard());
+	int cardVal = getValue(player_cards);
+	std::cout << "Your cards are now";
+	for (std::string x : player_cards) {
+		std::cout << " " << x;
+	}
+	std::cout << std::endl;
+	if (cardVal > 21) {
+		std::cout << "You busted with " << cardVal << ". Better luck next time." << std::endl;
+		changeBustStatus(true);
+		return;
+	}
+	else if (cardVal < 22) {
+		std::cout << "Your card value is now: " << cardVal << std::endl;
+	}
 
 }
 
@@ -104,5 +120,13 @@ std::string Blackjack::drawCard() {
 	std::string card = available_cards.at(card_index);
 	available_cards.erase(available_cards.begin() + card_index);
 	return card;
+}
+
+bool Blackjack::bustStatus() {
+	return player_bust_;
+}
+
+void Blackjack::changeBustStatus(bool status) {
+	player_bust_ = status;
 }
 
