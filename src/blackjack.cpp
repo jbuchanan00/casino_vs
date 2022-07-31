@@ -13,6 +13,7 @@ Blackjack::Blackjack() {
 //deal out the first set of cards, only two for both the dealer and player.
 void Blackjack::deal() {
 	changeBustStatus(false);
+	changeWonStatus(false);
 	for (int i = 0; i < 4; i++) {
 		if (i % 2 == 0) {
 			player_cards.push_back(drawCard());
@@ -62,9 +63,13 @@ void Blackjack::stand() {
 		dealerVal = getValue(dealer_cards);
 	}
 	if(dealerVal <= 21){
+		if (dealerVal < getValue(player_cards)) {
+			changeWonStatus(true);
+		}
 		std::cout << "\nDealer value is " << dealerVal << std::endl;
 	}
 	else if (dealerVal > 21) {
+		changeWonStatus(true);
 		std::cout << "\nDealer value is " << dealerVal << ". Dealer busts.\n";
 	}
 }
@@ -130,3 +135,10 @@ void Blackjack::changeBustStatus(bool status) {
 	player_bust_ = status;
 }
 
+void Blackjack::changeWonStatus(bool status) {
+	game_won_ = status;
+}
+
+bool Blackjack::wonStatus() {
+	return game_won_;
+}

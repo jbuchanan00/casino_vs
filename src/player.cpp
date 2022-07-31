@@ -36,6 +36,6 @@ void Player::game_record() {
 		std::cout << "Winning Percentage: 0%";
 	}
 	else {
-		std::cout << "Winning Percentage: " << get_wins() / get_games_played() << "%" << std::endl;
+		std::cout << "Winning Percentage: " << (static_cast<float>(get_wins()) / static_cast<float>(get_games_played())) * 100 << "%" << std::endl;
 	}
 }

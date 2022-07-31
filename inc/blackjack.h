@@ -21,6 +21,7 @@ private:
                             "s8", "s7", "s6", "s5",
                             "s4", "s3", "s2" };
     bool player_bust_;
+    bool game_won_;
 protected:
     std::vector<std::string> player_cards;
     std::vector<std::string> dealer_cards;
@@ -35,6 +36,8 @@ public:
     void stand();
     bool bustStatus();
     void changeBustStatus(bool);
+    void changeWonStatus(bool);
+    bool wonStatus();
 };
 
 

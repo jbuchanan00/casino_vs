@@ -17,6 +17,7 @@ int main() {
 		if (game_decision == 1) {
 			bool gameCont = true;
 			while (gameCont) {
+				p1.played();
 				Blackjack game;
 				game.deal();
 				char blackjackDecision = ' ';
@@ -33,6 +34,9 @@ int main() {
 					}
 				}
 				game.stand();
+				if (game.wonStatus()) {
+					p1.won();
+				}
 				std::cout << "Would you like to play again? Y for yes, N for no" << std::endl;
 				char blackjackCont = ' ';
 				std::cin >> blackjackCont;
