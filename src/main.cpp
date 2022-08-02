@@ -19,30 +19,52 @@ int main() {
 			while (gameCont) {
 				p1.played();
 				Blackjack game;
-				game.deal();
-				char blackjackDecision = ' ';
-				std::cout << "Press H for Hit, S for Stand" << std::endl;
-				std::cin >> blackjackDecision;
-				while (blackjackDecision == 'H' || blackjackDecision == 'h') {
-					game.hit();
-					if (!game.bustStatus()) {
-						std::cout << "Press H for Hit, S for Stand" << std::endl;
-						std::cin >> blackjackDecision;
+				std::cout << "How much would you like to bet?" << std::endl;
+				int betAmt = 0;
+				std::cin >> betAmt;
+				while (betAmt >= p1.get_dollars()) {
+					if (betAmt > p1.get_dollars()) {
+						std::cout << "You do not have enough funds to place that wager. Please enter again." << std::endl;
 					}
-					else {
+					//this kicks the player out of the game to deposit funds
+					if (p1.get_dollars() < 1) {
+						std::cout << "You do not have any funds available. Deposit funds to continue to play." << std::endl;
+						gameCont = false;
 						break;
 					}
+					std::cin >> betAmt;
 				}
-				game.stand();
-				if (game.wonStatus()) {
-					p1.won();
+				if (betAmt > 0 && p1.get_dollars() != 0) {
+					p1.withdraw_dollars(betAmt);
+					game.changeBetAmt(betAmt);
+					game.deal();
+					char blackjackDecision = ' ';
+					std::cout << "Press H for Hit, S for Stand" << std::endl;
+					std::cin >> blackjackDecision;
+					while (blackjackDecision == 'H' || blackjackDecision == 'h') {
+						game.hit();
+						if (!game.bustStatus()) {
+							std::cout << "Press H for Hit, S for Stand" << std::endl;
+							std::cin >> blackjackDecision;
+						}
+						else {
+							break;
+						}
+					}
+					game.stand();
+					if (game.wonStatus()) {
+						game.calcWonAmt();
+						p1.deposit_dollars(game.getWonAmt());
+						p1.won();
+					}
+					std::cout << "Would you like to play again? Y for yes, N for no" << std::endl;
+					char blackjackCont = ' ';
+					std::cin >> blackjackCont;
+					if (blackjackCont != 'y' && blackjackCont != 'Y') {
+						gameCont = false;
+					}
 				}
-				std::cout << "Would you like to play again? Y for yes, N for no" << std::endl;
-				char blackjackCont = ' ';
-				std::cin >> blackjackCont;
-				if (blackjackCont != 'y' && blackjackCont != 'Y') {
-					gameCont = false;
-				}
+				
 			}
 		}
 		if (game_decision == 2) {

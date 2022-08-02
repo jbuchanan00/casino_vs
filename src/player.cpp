@@ -29,6 +29,8 @@ void Player::played() {
 	games_played_++;
 }
 
+//getting wins / games played but if there isn't any games played
+//just do a 0% to avoid dividing by zero
 void Player::game_record() {
 	std::cout << "Wins: " << get_wins() << std::endl;
 	std::cout << "Games Played: " << get_games_played() << std::endl;

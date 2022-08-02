@@ -142,3 +142,24 @@ void Blackjack::changeWonStatus(bool status) {
 bool Blackjack::wonStatus() {
 	return game_won_;
 }
+
+void Blackjack::changeBetAmt(int amt) {
+	bet_amt_ = amt;
+}
+
+int Blackjack::getBetAmt() {
+	return bet_amt_;
+}
+
+void Blackjack::calcWonAmt() {
+	if (player_cards.size() == 2 && getValue(player_cards) == 21) {
+		amt_won_ = bet_amt_ + (bet_amt_ * 1.5);
+	}
+	else {
+		amt_won_ = bet_amt_ * 2;
+	}
+}
+
+int Blackjack::getWonAmt() {
+	return amt_won_;
+}
