@@ -1,13 +1,16 @@
 #include "blackjack.h"
 #include <iostream>
 #include <vector>
-#include <cstdlib>
+//#include <cstdlib>
 
 Blackjack::Blackjack() {
 	std::cout << "Welcome to Blackjack" << std::endl;
 	for (int i = 0; i < 52; i++) {
 		available_cards.push_back(deck[i]);
 	}
+	changeBetAmt(0);
+	changeWonStatus(false);
+	changeBustStatus(false);
 }
 
 //deal out the first set of cards, only two for both the dealer and player.
@@ -54,6 +57,7 @@ void Blackjack::hit() {
 //dealer wins when: player lower, player busted (taken care of in hit method)
 void Blackjack::stand() {
 	int dealerVal = getValue(dealer_cards);
+	int playerVal = getValue(player_cards);
 	std::cout << "Dealer Cards: " << dealer_cards.at(0) << " " << dealer_cards.at(1);
 	int i = 2;
 	while (dealerVal < 17) {
@@ -66,9 +70,12 @@ void Blackjack::stand() {
 		if (dealerVal < getValue(player_cards)) {
 			changeWonStatus(true);
 		}
+		else if (dealerVal == playerVal) {
+			changeWonStatus(false);
+		}
 		std::cout << "\nDealer value is " << dealerVal << std::endl;
 	}
-	else if (dealerVal > 21) {
+	else if (dealerVal > 21 && playerVal < 22) {
 		changeWonStatus(true);
 		std::cout << "\nDealer value is " << dealerVal << ". Dealer busts.\n";
 	}

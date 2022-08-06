@@ -17,7 +17,7 @@ int main() {
 		if (game_decision == 1) {
 			bool gameCont = true;
 			while (gameCont) {
-				p1.played();
+				
 				Blackjack game;
 				std::cout << "How much would you like to bet?" << std::endl;
 				int betAmt = 0;
@@ -35,6 +35,7 @@ int main() {
 					std::cin >> betAmt;
 				}
 				if (betAmt > 0 && p1.get_dollars() != 0) {
+					p1.played();
 					p1.withdraw_dollars(betAmt);
 					game.changeBetAmt(betAmt);
 					game.deal();
@@ -43,15 +44,18 @@ int main() {
 					std::cin >> blackjackDecision;
 					while (blackjackDecision == 'H' || blackjackDecision == 'h') {
 						game.hit();
-						if (!game.bustStatus()) {
+						if (!game.bustStatus() && (blackjackDecision == 'H' || blackjackDecision == 'h')) {
 							std::cout << "Press H for Hit, S for Stand" << std::endl;
 							std::cin >> blackjackDecision;
+						}
+						else if(!game.bustStatus() && (blackjackDecision != 'H' || blackjackDecision != 'h')) {
+							game.stand();
 						}
 						else {
 							break;
 						}
 					}
-					game.stand();
+					
 					if (game.wonStatus()) {
 						game.calcWonAmt();
 						p1.deposit_dollars(game.getWonAmt());
