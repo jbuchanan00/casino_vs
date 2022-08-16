@@ -19,10 +19,11 @@ int main() {
 			while (gameCont) {
 				
 				Blackjack game;
+				std::cout << "You currently have " << p1.get_dollars() << " dollars available.\n";
 				std::cout << "How much would you like to bet?" << std::endl;
 				int betAmt = 0;
 				std::cin >> betAmt;
-				while (betAmt >= p1.get_dollars()) {
+				while (betAmt > p1.get_dollars() || p1.get_dollars() <= 0) {
 					if (betAmt > p1.get_dollars()) {
 						std::cout << "You do not have enough funds to place that wager. Please enter again." << std::endl;
 					}
@@ -42,6 +43,7 @@ int main() {
 					char blackjackDecision = ' ';
 					std::cout << "Press H for Hit, S for Stand" << std::endl;
 					std::cin >> blackjackDecision;
+					//player hits
 					while (blackjackDecision == 'H' || blackjackDecision == 'h') {
 						game.hit();
 						if (!game.bustStatus() && (blackjackDecision == 'H' || blackjackDecision == 'h')) {
@@ -55,7 +57,11 @@ int main() {
 							break;
 						}
 					}
-					
+					//if player wants to stand instead of hit
+					if (blackjackDecision == 'S' || blackjackDecision == 's') {
+						game.stand();
+					}
+					//runs if player wins hand
 					if (game.wonStatus()) {
 						game.calcWonAmt();
 						p1.deposit_dollars(game.getWonAmt());
