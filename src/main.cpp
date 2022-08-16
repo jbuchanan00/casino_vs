@@ -46,12 +46,9 @@ int main() {
 					//player hits
 					while (blackjackDecision == 'H' || blackjackDecision == 'h') {
 						game.hit();
-						if (!game.bustStatus() && (blackjackDecision == 'H' || blackjackDecision == 'h')) {
+						if (!game.bustStatus()) {
 							std::cout << "Press H for Hit, S for Stand" << std::endl;
 							std::cin >> blackjackDecision;
-						}
-						else if(!game.bustStatus() && (blackjackDecision != 'H' || blackjackDecision != 'h')) {
-							game.stand();
 						}
 						else {
 							break;
@@ -61,10 +58,12 @@ int main() {
 					if (blackjackDecision == 'S' || blackjackDecision == 's') {
 						game.stand();
 					}
+					
+					game.calcWonAmt();
+					p1.deposit_dollars(game.getWonAmt());
+
 					//runs if player wins hand
-					if (game.wonStatus()) {
-						game.calcWonAmt();
-						p1.deposit_dollars(game.getWonAmt());
+					if (game.wonStatus()) {	
 						p1.won();
 					}
 					std::cout << "Would you like to play again? Y for yes, N for no" << std::endl;

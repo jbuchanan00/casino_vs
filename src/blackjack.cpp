@@ -55,6 +55,7 @@ void Blackjack::hit() {
 //hard 17 is 17 without an ace card
 //player wins when: dealer lower, dealer busts.
 //dealer wins when: player lower, player busted (taken care of in hit method)
+//if player and dealer tie w/o bust player refunded bet
 void Blackjack::stand() {
 	int dealerVal = getValue(dealer_cards);
 	int playerVal = getValue(player_cards);
@@ -157,16 +158,30 @@ void Blackjack::changeBetAmt(int amt) {
 int Blackjack::getBetAmt() {
 	return bet_amt_;
 }
-
+//payout for blackjack is 1.5x bet amount
 void Blackjack::calcWonAmt() {
-	if (player_cards.size() == 2 && getValue(player_cards) == 21) {
-		amt_won_ = bet_amt_ + (bet_amt_ * 1.5);
+	int playerVal = getValue(player_cards);
+	int dealerVal = getValue(dealer_cards);
+	//if player is higher than dealer without bust or dealer busted and player didn't
+	if ((playerVal > dealerVal || dealerVal > 21) && !bustStatus()) {
+		if (player_cards.size() == 2 && getValue(player_cards) == 21) {
+			amt_won_ = bet_amt_ + (bet_amt_ * 1.5);
+		}
+		else {
+			amt_won_ = bet_amt_ * 2;
+		}
+	}
+	//if dealer has higher than player w/o bust. if player busts.
+	else if ((dealerVal > playerVal && dealerVal < 22) || bustStatus()) {
+		amt_won_ = 0;
 	}
 	else {
-		amt_won_ = bet_amt_ * 2;
+		amt_won_ = bet_amt_;
 	}
+	
 }
 
 int Blackjack::getWonAmt() {
 	return amt_won_;
 }
+
