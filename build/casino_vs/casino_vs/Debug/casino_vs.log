@@ -1,0 +1,5 @@
+﻿  blackjack.cpp
+C:\Users\Josh\Documents\cpp_projects\casino_vs\src\blackjack.cpp(114,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Josh\Documents\cpp_projects\casino_vs\src\blackjack.cpp(130,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Josh\Documents\cpp_projects\casino_vs\src\blackjack.cpp(168,24): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  casino_vs.vcxproj -> C:\Users\Josh\Documents\cpp_projects\casino_vs\build\casino_vs\Debug\casino_vs.exe
